@@ -1,20 +1,11 @@
 const express = require('express');
 const cors = require('cors');
-const connectDB = require('./config/db');
 require('dotenv').config();
-
+const connectDB = require('./config/db');
 const app = express();
-
 connectDB();
-
 app.use(cors());
 app.use(express.json());
-
-app.get('/', (req, res) => {
-    res.json({ message: 'Event Pass Manager API running!' });
-});
-
+app.get('/', (req, res) => res.send('api working'));
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`server on port ${PORT}`));
