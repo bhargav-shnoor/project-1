@@ -11,3 +11,5 @@ app.use('/api/events', eventRoutes);
 app.get('/', (req, res) => res.send('api working'));
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`server on port ${PORT}`));
+const authRoutes = require('./routes/authRoutes');
+app.use('/api/auth', authRoutes);
