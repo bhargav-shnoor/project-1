@@ -19,5 +19,20 @@ const registerForEvent = async (req, res) => {
 
     res.status(201).json({ message: 'registered!', qrCode, registration });
 };
+const checkIn = async (req, res) => {
+    try {
+        const registration = await Registration.findById(req.params.registrationId);
+        if (!registration) return res.status(404).json({ message: 'registration not found' });
 
-module.exports = { registerForEvent };
+        if (registration.checkedIn) return res.status(400).json({ message: 'already checked in' });
+
+        registration.checkedIn = true;
+        await registration.save();
+
+        res.json({ message: 'checked in successfully!', registration });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+module.exports = { registerForEvent, checkIn };
