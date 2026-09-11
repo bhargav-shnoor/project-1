@@ -34,7 +34,7 @@ function EventsPage({ onLogout }) {
             {message && <p>{message}</p>}
             {qrCode && <img src={qrCode} alt="your QR pass" />}
             {events.map(event => (
-                <div key={event._id}>
+                <div className="card" key={event._id}>
                     <h3>{event.title}</h3>
                     <p>{event.location}</p>
                     <p>Capacity: {event.capacity}</p>
