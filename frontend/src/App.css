@@ -9,89 +9,233 @@
 
 body {
   background: #fff290;
-  padding: 20px;
+  min-height: 100vh;
 }
 
-.container {
-  max-width: 600px;
-  margin: 0 auto;
+/* NAVBAR */
+.navbar {
+  background: #4b0808;
+  padding: 14px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
-h1 {
-  color: #4b0808;
-  margin-bottom: 20px;
-  text-align: center;
-  font-size: 2rem;
+.navbar-brand {
+  color: #fff290;
+  font-size: 1.3rem;
   font-weight: 700;
   letter-spacing: 1px;
 }
 
+.navbar-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.navbar button {
+  margin: 0;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+}
+
+.btn-outline {
+  background: transparent !important;
+  border: 1.5px solid #fff290 !important;
+  color: #fff290 !important;
+}
+
+.btn-outline:hover {
+  background: #fff290 !important;
+  color: #4b0808 !important;
+  opacity: 1 !important;
+}
+
+/* MAIN CONTENT */
+.main-content {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+input, select {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  padding: 10px 14px;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  background: #fffdf7;
+  font-size: 0.95rem;
+  font-family: 'Albert Sans', sans-serif;
+  transition: border 0.2s;
+}
+
+/* CARDS */
+.card {
+  background: #fffdf7;
+  border-radius: 12px;
+  border-left: 4px solid #5e0606;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+  padding: 24px 28px;
+  margin-bottom: 16px;
+}
+
+.card:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  transition: box-shadow 0.2s;
+}
+
+/* EVENT CARD */
+.event-card {
+  background: #fffdf7;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+  padding: 20px 24px;
+  margin-bottom: 14px;
+  border-top: 3px solid #5e0606;
+}
+
+.event-card h3 {
+  font-size: 1.15rem;
+  color: #4b0808;
+  margin-bottom: 8px;
+}
+
+.event-meta {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.event-meta p {
+  font-size: 0.85rem;
+  color: #888;
+  background: #f5f0e8;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+/* TYPOGRAPHY */
+h1 {
+  color: #4b0808;
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 24px;
+}
+
 h2 {
   color: #4b0808;
-  margin-bottom: 15px;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 600;
+  margin-bottom: 20px;
 }
 
 h3 {
   color: #4b0808;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 600;
-  margin-bottom: 6px;
 }
 
-input {
+/* FORMS */
+.form-group {
+  margin-bottom: 14px;
+}
+
+.form-group label {
   display: block;
-  margin: 8px 0;
-  padding: 10px 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #4b0808;
+  margin-bottom: 5px;
+}
+
+input, select {
+  display: block;
   width: 100%;
-  border: 1.5px solid #ccc;
-  border-radius: 6px;
+  padding: 10px 14px;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
   background: #fffdf7;
   font-size: 0.95rem;
+  font-family: 'Albert Sans', sans-serif;
   transition: border 0.2s;
 }
 
-input:focus {
+input:focus, select:focus {
   outline: none;
   border-color: #5e0606;
 }
 
+/* BUTTONS */
 button {
-  margin: 8px 4px;
-  padding: 10px 20px;
+  padding: 10px 22px;
   background: #5e0606;
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 0.9rem;
   font-weight: 500;
-  letter-spacing: 0.5px;
+  font-family: 'Albert Sans', sans-serif;
+  letter-spacing: 0.3px;
   transition: opacity 0.2s;
+  margin: 4px 4px 4px 0;
 }
 
 button:hover {
   opacity: 0.85;
 }
 
-.card {
-  margin: 12px 0;
-  padding: 18px 20px;
-  background: #fffdf7;
-  border-radius: 10px;
-  border-left: 4px solid #5e0606;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+.btn-secondary {
+  background: transparent;
+  border: 1.5px solid #5e0606;
+  color: #5e0606;
 }
 
-img {
-  width: 150px;
-  margin: 10px 0;
-  border-radius: 6px;
+.btn-secondary:hover {
+  background: #5e0606;
+  color: white;
+  opacity: 1;
+}
+
+/* MESSAGES */
+.message {
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-top: 12px;
+  font-size: 0.9rem;
+}
+
+.message-success {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.message-error {
+  background: #fdecea;
+  color: #c62828;
+}
+
+/* QR CODE */
+.qr-container {
+  text-align: center;
+  padding: 20px;
+  background: #fffdf7;
+  border-radius: 12px;
+  margin-top: 16px;
+}
+
+.qr-container img {
+  width: 180px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 p {
   color: #666;
-  margin: 4px 0;
   font-size: 0.9rem;
+  margin: 4px 0;
 }

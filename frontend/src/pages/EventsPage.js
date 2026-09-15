@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-function EventsPage({ onLogout }) {
+function EventsPage() {
     const [events, setEvents] = useState([]);
     const [qrCode, setQrCode] = useState(null);
     const [message, setMessage] = useState('');
 
     useEffect(() => {
-        axios.get('http://localhost:5000/api/events')
+        axios.get('https://project-1-1unj.onrender.com/api/events')
             .then(res => setEvents(res.data))
             .catch(err => console.log(err));
     }, []);
@@ -16,7 +16,7 @@ function EventsPage({ onLogout }) {
         try {
             const token = localStorage.getItem('token');
             const res = await axios.post(
-                `http://localhost:5000/api/register/${eventId}`,
+                `https://project-1-1unj.onrender.com/api/register/${eventId}`,
                 {},
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -29,16 +29,23 @@ function EventsPage({ onLogout }) {
 
     return (
         <div>
-            <h2>All Events</h2>
-            <button onClick={onLogout}>Logout</button>
-            {message && <p>{message}</p>}
-            {qrCode && <img src={qrCode} alt="your QR pass" />}
+            <h2>Upcoming Events</h2>
+            {message && <p className={`message ${message.includes('success') ? 'message-success' : 'message-error'}`}>{message}</p>}
+            {qrCode && (
+                <div className="qr-container">
+                    <p>Your QR Pass:</p>
+                    <img src={qrCode} alt="QR pass" />
+                </div>
+            )}
             {events.map(event => (
                 <div className="card" key={event._id}>
                     <h3>{event.title}</h3>
-                    <p>{event.location}</p>
-                    <p>Capacity: {event.capacity}</p>
-                    <button onClick={() => registerForEvent(event._id)}>Register</button>
+                    <div className="event-meta">
+                        <p>📍 {event.location}</p>
+                        <p>👥 {event.registeredCount}/{event.capacity}</p>
+                        <p>📅 {new Date(event.date).toLocaleDateString()}</p>
+                    </div>
+                    <button onClick={() => registerForEvent(event._id)}>Register →</button>
                 </div>
             ))}
         </div>

@@ -15,7 +15,7 @@ function CreateEventPage({ onBack }) {
     const handleSubmit = async () => {
         try {
             const token = localStorage.getItem('token');
-            await axios.post('http://localhost:5000/api/events', form, {
+            await axios.post('https://project-1-1unj.onrender.com/api/events', form, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setMessage('event created successfully!');

@@ -10,7 +10,7 @@ function RegisterPage({ onRegister, onRole }) {
 
     const handleRegister = async () => {
         try {
-            const res = await axios.post('http://localhost:5000/api/auth/register', { name, email, password, role });
+            const res = await axios.post('https://project-1-1unj.onrender.com/api/auth/register', { name, email, password, role });
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('role', res.data.role);
             setMessage('registered successfully!');

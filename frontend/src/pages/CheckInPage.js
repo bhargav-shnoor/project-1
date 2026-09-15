@@ -9,7 +9,7 @@ function CheckInPage({ onBack }) {
         try {
             const token = localStorage.getItem('token');
             const res = await axios.put(
-                `http://localhost:5000/api/register/checkin/${registrationId}`,
+                `https://project-1-1unj.onrender.com/api/register/checkin/${registrationId}`,
                 {},
                 { headers: { Authorization: `Bearer ${token}` } }
             );
