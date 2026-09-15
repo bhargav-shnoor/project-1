@@ -41,9 +41,9 @@ function EventsPage() {
                 <div className="card" key={event._id}>
                     <h3>{event.title}</h3>
                     <div className="event-meta">
-                        <p>📍 {event.location}</p>
-                        <p>👥 {event.registeredCount}/{event.capacity}</p>
-                        <p>📅 {new Date(event.date).toLocaleDateString()}</p>
+                        <p> {event.location}</p>
+                        <p> {event.registeredCount}/{event.capacity}</p>
+                        <p> {new Date(event.date).toLocaleDateString()}</p>
                     </div>
                     <button onClick={() => registerForEvent(event._id)}>Register →</button>
                 </div>

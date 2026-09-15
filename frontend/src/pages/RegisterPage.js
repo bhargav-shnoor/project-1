@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-function RegisterPage({ onRegister, onRole }) {
+function RegisterPage({ onRegister, onRole, onBack }) {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -24,15 +24,16 @@ function RegisterPage({ onRegister, onRole }) {
     return (
         <div className="card">
             <h2>Register</h2>
-            <input placeholder="name" onChange={e => setName(e.target.value)} />
-            <input placeholder="email" onChange={e => setEmail(e.target.value)} />
-            <input placeholder="password" type="password" onChange={e => setPassword(e.target.value)} />
+            <input placeholder="Name" onChange={e => setName(e.target.value)} />
+            <input placeholder="Email" onChange={e => setEmail(e.target.value)} />
+            <input placeholder="Password" type="password" onChange={e => setPassword(e.target.value)} />
             <select onChange={e => setRole(e.target.value)}>
                 <option value="user">User</option>
                 <option value="organiser">Organiser</option>
             </select>
             <button onClick={handleRegister}>Register</button>
-            <p>{message}</p>
+            <button className="btn-secondary" onClick={onBack}>Back to Login</button>
+            {message && <p>{message}</p>}
         </div>
     );
 }
