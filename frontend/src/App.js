@@ -5,6 +5,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import CreateEventPage from './pages/CreateEventPage';
 import CheckInPage from './pages/CheckInPage';
+import DashboardPage from './pages/DashboardPage';
 
 function App() {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -13,6 +14,7 @@ function App() {
     const [showCheckIn, setShowCheckIn] = useState(false);
     const [role, setRole] = useState(localStorage.getItem('role'));
     const [darkMode, setDarkMode] = useState(false);
+    const [showDashboard, setShowDashboard] = useState(false);
 
     const toggleTheme = () => {
         setDarkMode(!darkMode);
@@ -28,46 +30,66 @@ function App() {
 
     return (
         <div>
-            <nav className="navbar">
-    <span className="navbar-brand">Event Pass Manager</span>
-    <div className="navbar-actions">
-        {role === 'organiser' && loggedIn && !showCreate && !showCheckIn && (
-            <>
-                <button onClick={() => setShowCreate(true)}>+ Create Event</button>
-                <button onClick={() => setShowCheckIn(true)}>Check In</button>
-            </>
-        )}
-        {loggedIn && (
-            <button className="btn-outline" onClick={handleLogout}>Logout</button>
-        )}
-    </div>
-</nav>
-<div
-    style={{
-        position: 'fixed',
-        top: '80px',
-        right: '20px',
-        zIndex: 100,
-        cursor: 'grab'
-    }}
-    draggable="true"
->
-    <button onClick={toggleTheme} style={{
-        borderRadius: '50%',
-        width: '42px',
-        height: '42px',
-        padding: '0',
-        fontSize: '1.2rem',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-    }}>
-        {darkMode ? '☀️' : '🌙'}
-    </button>
-</div>
+            <div className="navbar-wrapper">
+                <nav className="navbar">
+                    <span className="navbar-brand">Event Pass Manager</span>
+                </nav>
+                <div className="nav-lower">
+                    <div className="nav-lower-left">
+                        {role === 'organiser' && loggedIn && (
+                            <>
+                                <button onClick={() => { setShowDashboard(true); setShowCreate(false); setShowCheckIn(false); }}>Dashboard</button>
+                                <button onClick={() => { setShowCreate(true); setShowDashboard(false); setShowCheckIn(false); }}>+ Create Event</button>
+                            </>
+                        )}
+                    </div>
+                    <div className="nav-lower-right">
+                        {role === 'organiser' && loggedIn && (
+                            <button onClick={() => { setShowCheckIn(true); setShowDashboard(false); setShowCreate(false); }}>Check In</button>
+                        )}
+                        {loggedIn && (
+                            <button onClick={handleLogout}>Logout</button>
+                        )}
+                    </div>
+                </div>
+            </div>
+            <div
+                style={{
+                    position: 'fixed',
+                    top: '80px',
+                    right: '20px',
+                    zIndex: 100,
+                    cursor: 'grab'
+                }}
+                draggable="true"
+            >
+                <button
+                    onClick={toggleTheme}
+                    className="planet-toggle"
+                    style={{
+                        background: 'transparent',
+                        border: 'none',
+                        boxShadow: 'none',
+                        outline: 'none',
+                        padding: '0',
+                        fontSize: '2.5rem',
+                        lineHeight: '1',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transition: 'transform 0.3s ease, filter 0.3s ease',
+                        WebkitTapHighlightColor: 'transparent'
+                    }}
+                >
+                    {darkMode ? '🌕' : '🌑'}
+                </button>
+            </div>
             <div className="main-content">
                 {loggedIn ? (
-                    showCreate ? (
+                    showDashboard ? (
+                        <DashboardPage onBack={() => setShowDashboard(false)} />
+                    ) : showCreate ? (
                         <CreateEventPage onBack={() => setShowCreate(false)} />
                     ) : showCheckIn ? (
                         <CheckInPage onBack={() => setShowCheckIn(false)} />
