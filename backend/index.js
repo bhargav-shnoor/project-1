@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const rateLimit = require('express-rate-limit');
 const connectDB = require('./config/db');
 const eventRoutes = require('./routes/eventRoutes');
 const authRoutes = require('./routes/authRoutes');
@@ -9,29 +10,31 @@ require('dotenv').config();
 
 const app = express();
 
-// Connect to MongoDB
 connectDB();
 
-// Configure CORS for local development and production
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    message: { message: 'Too many requests, please try again later' }
+});
+
+app.use(limiter);
+
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://project-1-1unj.onrender.com'],
+    origin: ['http://localhost:3000', 'https://project-1-eight-gilt-14.vercel.app'],
     credentials: true
 }));
 
-// Body parser middleware
 app.use(express.json());
 
-// Base test endpoint
 app.get('/', (req, res) => {
     res.json({ message: 'Event Pass Manager API running!' });
 });
 
-// API Routes
 app.use('/api/events', eventRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/register', registrationRoutes);
 
-// Global 404 handler for unknown routes
 app.use((req, res) => {
     res.status(404).json({ message: `Cannot ${req.method} ${req.originalUrl}` });
 });
