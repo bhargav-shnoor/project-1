@@ -1,35 +1,40 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-function UserDashboard({ onBack }) {
+const API_BASE_URL = 'https://project-1-1unj.onrender.com';
+
+function UserDashboardPage({ onBack }) {
     const [myRegistrations, setMyRegistrations] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        axios.get('https://project-1-1unj.onrender.com/api/events/my-registrations', {
-            headers: { Authorization: `Bearer ${token}` }
-        })
-        .then(res => {
-            setMyRegistrations(res.data);
-            setLoading(false);
-        })
-        .catch(err => {
-            console.error(err);
-            setLoading(false);
-        });
+        fetchRegistrations();
     }, []);
+
+    const fetchRegistrations = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const res = await axios.get(`${API_BASE_URL}/api/register/my-registrations`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            setMyRegistrations(res.data);
+        } catch (err) {
+            console.error('Error fetching registrations:', err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const cancelRegistration = async (eventId) => {
         if (!window.confirm('Cancel your registration for this event?')) return;
         try {
             const token = localStorage.getItem('token');
-            await axios.post(`https://project-1-1unj.onrender.com/api/events/${eventId}/cancel`, {}, {
+            await axios.post(`${API_BASE_URL}/api/register/${eventId}/cancel`, {}, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setMyRegistrations(prev => prev.filter(item => item._id !== eventId));
         } catch (err) {
-            console.error(err);
+            console.error('Failed to cancel registration:', err);
         }
     };
 
@@ -38,7 +43,7 @@ function UserDashboard({ onBack }) {
             <h2>My Dashboard</h2>
             <button className="btn-secondary" onClick={onBack}>← Back to Events</button>
 
-            <div className="card">
+            <div className="card" style={{ marginTop: '16px' }}>
                 <h3>My Upcoming Events</h3>
                 <p>{myRegistrations.length}</p>
             </div>
@@ -57,11 +62,10 @@ function UserDashboard({ onBack }) {
                             {event.date && <p>{new Date(event.date).toLocaleDateString()}</p>}
                         </div>
 
-                        {/* Pass QR Code Placeholder */}
                         <div className="qr-container">
                             <p>Your Entry Pass</p>
                             <img 
-                                src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${event._id}`} 
+                                src={event.qrCode || `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${event.registrationId || event._id}`} 
                                 alt="Event QR Pass" 
                             />
                         </div>
@@ -80,4 +84,4 @@ function UserDashboard({ onBack }) {
     );
 }
 
-export default UserDashboard;
+export default UserDashboardPage;

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const API_BASE_URL = 'https://project-1-1unj.onrender.com';
+
 const DeleteEventPage = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,7 +14,7 @@ const DeleteEventPage = () => {
   const fetchMyEvents = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('/api/events/my-events', {
+      const res = await axios.get(`${API_BASE_URL}/api/events/my-events`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setEvents(res.data);
@@ -30,7 +32,7 @@ const DeleteEventPage = () => {
 
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`/api/events/${eventId}`, {
+      await axios.delete(`${API_BASE_URL}/api/events/${eventId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+const API_BASE_URL = 'https://project-1-1unj.onrender.com';
+
 function CreateEventPage({ onBack }) {
     const [form, setForm] = useState({
         title: '', 
@@ -16,14 +18,13 @@ function CreateEventPage({ onBack }) {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = async (e) => {
-        if (e) e.preventDefault();
+    const handleSubmit = async () => {
         setLoading(true);
         setMessage('');
 
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.post('/api/events', {
+            await axios.post(`${API_BASE_URL}/api/events`, {
                 title: form.title,
                 description: form.description,
                 date: form.date,
