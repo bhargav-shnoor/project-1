@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import UpdateEventPage from './UpdateEventPage';
 
 const API_BASE_URL = 'https://project-1-1unj.onrender.com';
 
@@ -25,19 +26,18 @@ const DashboardPage = () => {
     }
   };
 
-  const handleDelete = async (eventId) => {
-    if (!window.confirm('Are you sure you want to delete this event?')) return;
+  const [editingEvent, setEditingEvent] = useState(null);
 
-    try {
-      const token = localStorage.getItem('token');
-      await axios.delete(`${API_BASE_URL}/api/events/${eventId}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setMyEvents(myEvents.filter(event => event._id !== eventId));
-    } catch (err) {
-      alert('Failed to delete event: ' + (err.response?.data?.message || err.message));
-    }
-  };
+  if (editingEvent) {
+    return <UpdateEventPage 
+        event={editingEvent} 
+        onBack={() => setEditingEvent(null)}
+        onUpdated={() => {
+            setEditingEvent(null);
+            fetchOrganiserDashboard();
+        }}
+    />;
+}
 
   const totalRegistrations = myEvents.reduce(
     (acc, event) => acc + (event.registeredCount || 0),
@@ -74,13 +74,13 @@ const DashboardPage = () => {
                 <p>{event.description}</p>
                 <p><strong>Registrations:</strong> {event.registeredCount || 0}</p>
               </div>
-              <button 
-                onClick={() => handleDelete(event._id)} 
-                className="btn-secondary"
-                style={{ backgroundColor: '#fee2e2', color: '#991b1b', borderColor: '#fca5a5', padding: '8px 16px', cursor: 'pointer' }}
-              >
-                Delete
-              </button>
+              <button
+    onClick={() => setEditingEvent(event)}
+    className="btn-secondary"
+    style={{ padding: '8px 16px', cursor: 'pointer' }}
+>
+    Edit
+</button>
             </div>
           </div>
         ))
