@@ -3,7 +3,13 @@ const router = express.Router();
 const protect = require('../middleware/authMiddleware');
 const Registration = require('../models/Registration');
 const Event = require('../models/Event');
-const { registerForEvent, checkIn, getParticipants, getStats } = require('../controllers/registrationController');
+const { 
+    registerForEvent, 
+    checkIn, 
+    getParticipants, 
+    getStats,
+    getParticipantsCSV 
+} = require('../controllers/registrationController');
 
 const getMyRegistrations = async (req, res) => {
     try {
@@ -24,6 +30,7 @@ const getMyRegistrations = async (req, res) => {
 };
 
 router.get('/my-registrations', protect, getMyRegistrations);
+router.get('/:eventId/participants/csv', protect, getParticipantsCSV);
 router.get('/:eventId/participants', protect, getParticipants);
 router.get('/:eventId/stats', protect, getStats);
 router.put('/checkin/:registrationId', protect, checkIn);

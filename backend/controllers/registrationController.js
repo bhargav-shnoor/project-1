@@ -79,5 +79,24 @@ const getMyRegistrations = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
+const getParticipantsCSV = async (req, res) => {
+    try {
+        const participants = await Registration.find({ event: req.params.eventId })
+            .populate('user', 'name email');
 
-module.exports = { registerForEvent, checkIn, getParticipants, getStats, getMyRegistrations };
+        const csv = [
+            'Name,Email,Checked In',
+            ...participants.map(p => 
+                `${p.user.name},${p.user.email},${p.checkedIn ? 'Yes' : 'No'}`
+            )
+        ].join('\n');
+
+        res.setHeader('Content-Type', 'text/csv');
+        res.setHeader('Content-Disposition', 'attachment; filename=participants.csv');
+        res.send(csv);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+module.exports = { registerForEvent, checkIn, getParticipants, getStats, getMyRegistrations, getParticipantsCSV };
