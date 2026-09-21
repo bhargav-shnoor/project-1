@@ -26,6 +26,28 @@ const DashboardPage = () => {
     }
   };
 
+  const downloadCSV = async (eventId) => {
+    try {
+        const token = localStorage.getItem('token');
+        const res = await axios.get(
+            `https://project-1-1unj.onrender.com/api/register/${eventId}/participants/csv`,
+            {
+                headers: { Authorization: `Bearer ${token}` },
+                responseType: 'blob'
+            }
+        );
+        const url = window.URL.createObjectURL(new Blob([res.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'participants.csv');
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+    } catch (err) {
+        console.error('Download failed:', err);
+    }
+};
+
   const [editingEvent, setEditingEvent] = useState(null);
 
   if (editingEvent) {
@@ -37,12 +59,12 @@ const DashboardPage = () => {
             fetchOrganiserDashboard();
         }}
     />;
-}
+  }
 
   const totalRegistrations = myEvents.reduce(
     (acc, event) => acc + (event.registeredCount || 0),
     0
-);
+  );
 
   if (loading) return <p>Loading dashboard...</p>;
 
@@ -74,13 +96,21 @@ const DashboardPage = () => {
                 <p>{event.description}</p>
                 <p><strong>Registrations:</strong> {event.registeredCount || 0}</p>
               </div>
-              <button
-    onClick={() => setEditingEvent(event)}
-    className="btn-secondary"
-    style={{ padding: '8px 16px', cursor: 'pointer' }}
->
-    Edit
-</button>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button
+                  onClick={() => downloadCSV(event._id)}
+                  style={{ padding: '8px 16px', cursor: 'pointer' }}
+                >
+                  ⬇ Participants List
+                </button>
+                <button
+                  onClick={() => setEditingEvent(event)}
+                  className="btn-secondary"
+                  style={{ padding: '8px 16px', cursor: 'pointer' }}
+                >
+                  Edit
+                </button>
+              </div>
             </div>
           </div>
         ))
