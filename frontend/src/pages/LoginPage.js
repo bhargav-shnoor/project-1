@@ -7,6 +7,14 @@ function LoginPage({ onLogin, onRole }) {
   const [message, setMessage] = useState('');
 
   const handleLogin = async () => {
+    if (!email || !password) {
+      setMessage('Please fill in all fields');
+      return;
+    }
+    if (!email.includes('@')) {
+      setMessage('Please enter a valid email');
+      return;
+    }
     try {
       const res = await axios.post('https://project-1-1unj.onrender.com/api/auth/login', { email, password });
       localStorage.setItem('token', res.data.token);

@@ -9,6 +9,18 @@ function RegisterPage({ onRegister, onRole, onBack }) {
     const [message, setMessage] = useState('');
 
     const handleRegister = async () => {
+        if (!name || !email || !password) {
+            setMessage('Please fill in all fields');
+            return;
+        }
+        if (!email.includes('@')) {
+            setMessage('Please enter a valid email');
+            return;
+        }
+        if (password.length < 6) {
+            setMessage('Password must be at least 6 characters');
+            return;
+        }
         try {
             const res = await axios.post('https://project-1-1unj.onrender.com/api/auth/register', { name, email, password, role });
             localStorage.setItem('token', res.data.token);

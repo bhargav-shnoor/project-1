@@ -19,9 +19,14 @@ function CreateEventPage({ onBack }) {
     };
 
     const handleSubmit = async () => {
-        setLoading(true);
-        setMessage('');
-
+        if (!form.title || !form.description || !form.date || !form.location || !form.capacity) {
+            setMessage('Please fill in all fields');
+            return;
+        }
+        if (Number(form.capacity) < 1) {
+            setMessage('Capacity must be at least 1');
+            return;
+        }
         try {
             const token = localStorage.getItem('token');
             await axios.post(`${API_BASE_URL}/api/events`, {
